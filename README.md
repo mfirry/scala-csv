@@ -4,9 +4,9 @@
 
 ## build.sbt
 
-```scala
-libraryDependencies += "com.github.tototoshi" %% "scala-csv" % "1.3.6"
-```
+
+
+
 
 ## Example
 
@@ -28,7 +28,7 @@ You can create CSVReader instance with CSVReader#open.
 
 ```scala
 scala> import java.io.File
-scala> import com.github.tototoshi.csv.given // or simply import com.github.tototoshi.csv.DefaultCSVFormat      
+scala> import com.github.tototoshi.csv.given // or simply import com.github.tototoshi.csv.DefaultCSVFormat          
 scala> val reader = CSVReader.open(new File("sample.csv"))(using DefaultCSVFormat)
 ```
 
@@ -178,11 +178,11 @@ scala> :paste
 implicit object MyFormat extends DefaultCSVFormat {
   override val delimiter = '#'
 }
-val w = CSVWriter.open(new java.io.OutputStreamWriter(System.out))
+val w = CSVWriter.open(new java.io.OutputStreamWriter(System.out))(using MyFormat)
 
 // Exiting paste mode, now interpreting.
 
-defined module MyFormat
+defined object MyFormat
 w: com.github.tototoshi.csv.CSVWriter = com.github.tototoshi.csv.CSVWriter@6cd66afa
 
 scala> w.writeRow(List(1, 2, 3))
