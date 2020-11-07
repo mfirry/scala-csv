@@ -21,7 +21,7 @@ import java.util.NoSuchElementException
 
 import scala.io.Source
 
-class CSVReader protected (private val lineReader: LineReader)(implicit format: CSVFormat) extends Closeable {
+class CSVReader protected (private val lineReader: LineReader)(using format: CSVFormat) extends Closeable {
 
   private[this] val parser = new CSVParser(format)
 
@@ -84,10 +84,10 @@ class CSVReader protected (private val lineReader: LineReader)(implicit format: 
     }).getOrElse(Iterator())
   }
 
-  def toStreamWithHeaders: Stream[Map[String, String]] = iteratorWithHeaders.toStream
+  def toStreamWithHeaders = iteratorWithHeaders.to(LazyList)
 
-  def toStream: Stream[List[String]] =
-    Stream.continually(readNext()).takeWhile(_.isDefined).map(_.get)
+  def toStream =
+    LazyList.continually(readNext()).takeWhile(_.isDefined).map(_.get)
 
   def all(): List[List[String]] = {
     toStream.toList
@@ -115,27 +115,27 @@ object CSVReader {
 
   val DEFAULT_ENCODING = "UTF-8"
 
-  def open(source: Source)(implicit format: CSVFormat): CSVReader = new CSVReader(new SourceLineReader(source))(format)
+  def open(source: Source)(using format: CSVFormat): CSVReader = new CSVReader(new SourceLineReader(source))(using format)
 
-  def open(reader: Reader)(implicit format: CSVFormat): CSVReader = new CSVReader(new ReaderLineReader(reader))(format)
+  def open(reader: Reader)(using format: CSVFormat): CSVReader = new CSVReader(new ReaderLineReader(reader))(using format)
 
-  def open(file: File)(implicit format: CSVFormat): CSVReader = {
-    open(file, this.DEFAULT_ENCODING)(format)
+  def open(file: File)(using format: CSVFormat): CSVReader = {
+    open(file, this.DEFAULT_ENCODING)(using format)
   }
 
-  def open(file: File, encoding: String)(implicit format: CSVFormat): CSVReader = {
+  def open(file: File, encoding: String)(using format: CSVFormat): CSVReader = {
     val fin = new FileInputStream(file)
     try {
-      open(new InputStreamReader(fin, encoding))(format)
+      open(new InputStreamReader(fin, encoding))(using format)
     } catch {
       case e: UnsupportedEncodingException => fin.close(); throw e
     }
   }
 
-  def open(filename: String)(implicit format: CSVFormat): CSVReader =
-    open(new File(filename), this.DEFAULT_ENCODING)(format)
+  def open(filename: String)(using format: CSVFormat): CSVReader =
+    open(new File(filename), this.DEFAULT_ENCODING)(using format)
 
-  def open(filename: String, encoding: String)(implicit format: CSVFormat): CSVReader =
-    open(new File(filename), encoding)(format)
+  def open(filename: String, encoding: String)(using format: CSVFormat): CSVReader =
+    open(new File(filename), encoding)(using format)
 
 }

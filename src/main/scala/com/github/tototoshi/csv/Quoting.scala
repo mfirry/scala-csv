@@ -15,8 +15,12 @@
  */
 package com.github.tototoshi.csv
 
-sealed abstract trait Quoting extends Product with Serializable
-case object QUOTE_ALL extends Quoting
-case object QUOTE_MINIMAL extends Quoting
-case object QUOTE_NONE extends Quoting
-case object QUOTE_NONNUMERIC extends Quoting
+// sealed abstract trait Quoting extends Product with Serializable
+// case object QUOTE_ALL extends Quoting
+// case object QUOTE_MINIMAL extends Quoting
+// case object QUOTE_NONE extends Quoting
+// case object QUOTE_NONNUMERIC extends Quoting
+
+enum Quoting {
+  case QUOTE_ALL, QUOTE_MINIMAL, QUOTE_NONE, QUOTE_NONNUMERIC
+}

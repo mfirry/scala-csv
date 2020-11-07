@@ -14,8 +14,9 @@
 * limitations under the License.
 */
 package com.github.tototoshi.csv
+import com.github.tototoshi.csv.Quoting._
 
-trait DefaultCSVFormat extends CSVFormat {
+given DefaultCSVFormat as CSVFormat {
 
   val delimiter: Char = ','
 
@@ -31,7 +32,7 @@ trait DefaultCSVFormat extends CSVFormat {
 
 }
 
-trait TSVFormat extends CSVFormat {
+given TSVFormat as CSVFormat {
 
   val delimiter: Char = '\t'
 

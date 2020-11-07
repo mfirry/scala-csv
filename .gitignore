@@ -3,3 +3,6 @@ target/
 publish.sbt
 .idea
 .idea_modules
+.vscode/
+project/metals.sbt
+project/project/

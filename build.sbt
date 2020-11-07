@@ -6,9 +6,9 @@ name := "scala-csv"
 
 version := "1.3.6"
 
-scalaVersion := "2.11.12"
+scalaVersion := "3.0.0-M1"
 
-crossScalaVersions := Seq("2.12.12", "2.11.12", "2.10.7", "2.13.3")
+// crossScalaVersions := Seq("2.12.12", "2.11.12", "2.10.7", "2.13.3")
 
 TaskKey[Unit]("checkScalariform") := {
   val diff = "git diff".!!
@@ -19,12 +19,12 @@ TaskKey[Unit]("checkScalariform") := {
 
 organization := "com.github.tototoshi"
 
-libraryDependencies ++= {
-  Seq(
-    "org.scalatest" %% "scalatest" % "3.2.2" % Test,
-    ("org.scalacheck" %% "scalacheck" % "1.14.3" % Test).withDottyCompat(scalaVersion.value)
-  )
-}
+// libraryDependencies ++= {
+//   Seq(
+//     "org.scalatest" %% "scalatest" % "3.2.2" % Test,
+//     ("org.scalacheck" %% "scalacheck" % "1.14.3" % Test).withDottyCompat(scalaVersion.value)
+//   )
+// }
 
 val enableScalameter = settingKey[Boolean]("")
 
