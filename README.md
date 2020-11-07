@@ -27,7 +27,9 @@ d,e,f
 You can create CSVReader instance with CSVReader#open.
 
 ```scala
-scala> val reader = CSVReader.open(new File("sample.csv"))
+scala> import java.io.File
+scala> import com.github.tototoshi.csv.given // or simply import com.github.tototoshi.csv.DefaultCSVFormat      
+scala> val reader = CSVReader.open(new File("sample.csv"))(using DefaultCSVFormat)
 ```
 
 #### Reading all lines
