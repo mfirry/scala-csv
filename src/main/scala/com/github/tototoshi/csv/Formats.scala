@@ -16,7 +16,7 @@
 package com.github.tototoshi.csv
 import com.github.tototoshi.csv.Quoting._
 
-given DefaultCSVFormat as CSVFormat {
+trait DefaultCSVFormat extends CSVFormat {
 
   val delimiter: Char = ','
 
@@ -32,7 +32,7 @@ given DefaultCSVFormat as CSVFormat {
 
 }
 
-given TSVFormat as CSVFormat {
+trait TSVFormat extends CSVFormat {
 
   val delimiter: Char = '\t'
 

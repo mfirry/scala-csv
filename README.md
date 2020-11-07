@@ -28,7 +28,8 @@ You can create CSVReader instance with CSVReader#open.
 
 ```scala
 scala> import java.io.File
-scala> import com.github.tototoshi.csv.given // or simply import com.github.tototoshi.csv.DefaultCSVFormat
+scala> import com.github.tototoshi.csv.DefaultCSVFormat
+scala> given default as com.github.tototoshi.csv.DefaultCSVFormat
 scala> val reader = CSVReader.open(new File("sample.csv"))(using DefaultCSVFormat)
 ```
 
@@ -175,27 +176,15 @@ Define your own CSVFormat when you want to change the CSV's format.
 scala> :paste
 // Entering paste mode (ctrl-D to finish)
 
-scala> given MyFormat as CSVFormat {
-
-   val delimiter: Char = '#'
-
-   val quoteChar: Char = '"'
-
-   val escapeChar: Char = '"'
-
-   val lineTerminator: String = "\r\n"
-
-   val quoting: Quoting = QUOTE_MINIMAL
-
-   val treatEmptyLineAsNil: Boolean = false
-
-  }
-
-val w = CSVWriter.open(new java.io.OutputStreamWriter(System.out))(using MyFormat)
+trait MyFormat extends DefaultCSVFormat {
+   override val delimiter: Char = '#'
+}
+given myformat as MyFormat
+val w = CSVWriter.open(new java.io.OutputStreamWriter(System.out))
 
 // Exiting paste mode, now interpreting.
 
-defined object MyFormat
+defined object myformat
 w: com.github.tototoshi.csv.CSVWriter = com.github.tototoshi.csv.CSVWriter@6cd66afa
 
 scala> w.writeRow(List(1, 2, 3))
